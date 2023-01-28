@@ -22,7 +22,7 @@ function Username() {
       let data = {
         'sim_number': input
       }
-      let _respone = submitNumber('http://192.168.1.4:7777', data)
+      let _respone = submitNumber('https://sim-price-pred-api.onrender.com', data)
       _respone.then(body => setResponse(body))
     }else{
       setValid(false)
@@ -72,12 +72,13 @@ function Username() {
           </form>
 
           <div className="textbox mt-5 text-center text-xl">
-            {valid ? (
-              <div className='textbox'>
-                Nhà mạng: {response["career"]}
-                <br/>
-                Giá tiền dự đoán: {priceDict[response["price_category"]]}
-              </div>
+            {(valid) ? (
+              (Object.keys(response).length === 0) ? 
+                (<div className='textbox'>
+                  Nhà mạng: {response["career"]}
+                  <br/>
+                  Giá tiền dự đoán: {priceDict[response["price_category"]]}
+                </div>): (<></>)
             ):(
               <span className='text-red-500'>
                  Số điện thoại nhập vào không hợp lệ

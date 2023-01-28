@@ -6,13 +6,13 @@ import Profile from "../pages/Profile";
 import Recovery from "../pages/Recovery";
 import Register from "../pages/Register";
 import ResetPassword from "../pages/ResetPassword";
-import Username from "../pages/Username";
+import Username from "../pages/Username/Username";
 
-import config from '../configs/routeConfig'
+import config from '../configs/routeConfig';
 
 import {
   createBrowserRouter
-} from 'react-router-dom'
+} from 'react-router-dom';
 
 const publicRoutes = [
   {
@@ -43,8 +43,8 @@ const publicRoutes = [
     path: config.resetPassword, 
     element: <ResetPassword></ResetPassword>
   },
-]
+];
 
-export const publicRouter = createBrowserRouter(publicRoutes)
+export const publicRouter = createBrowserRouter(publicRoutes);
 
 

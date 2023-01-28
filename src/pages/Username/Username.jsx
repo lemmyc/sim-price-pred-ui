@@ -73,7 +73,7 @@ function Username() {
 
           <div className="textbox mt-5 text-center text-xl">
             {(valid) ? (
-              (Object.keys(response).length === 0) ? 
+              (Object.keys(response).length > 0) ? 
                 (<div className='textbox'>
                   Nhà mạng: {response["career"]}
                   <br/>

@@ -1,6 +1,6 @@
-export const submitNumber = async (url = '', data = {}) => {
+export const fetchData = async (method, url = '', data = {}) => {
   const response = await fetch(url, {
-    method: 'POST',
+    method: method,
     mode: 'cors', 
     cache: 'no-cache', 
     credentials: 'same-origin', 

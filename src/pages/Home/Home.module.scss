@@ -1,17 +1,20 @@
 .glass{
+  height: 80vh;
+  max-width: 80vw;
   background-color: rgba(255, 255, 255, 0.55);
   border-radius: 16px;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   backdrop-filter: blur(7.1px);
   @apply border-4 border-gray-50 shadow-lg shrink-0;
-  @apply h-3/4 w-[30%] rounded-3xl py-20 px-7 min-w-max;
+  @apply rounded-3xl  px-5 py-5;
+  overflow-y: auto;
 }
 
-.profile_img{
-  @apply border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer;
-  @apply hover:border-gray-200;
+.logo{
+  width: 128px;
+  height: 150px;
+  pointer-events: none
 }
-
 .textbox{
   @apply border-0 px-5 py-4 rounded-xl w-3/4 shadow-lg text-lg text-center;
   @apply focus:outline-none;

@@ -112,8 +112,9 @@ function Home() {
                   value={input}
                   disabled={loading}
                   onChange={handleChangeInput}
+                  onWheel={(e) => e.target.blur()} //disable increment on scrolling mouse wheel
                   className={styles.textbox}
-                  type="text"
+                  type="number"
                   placeholder="Số điện thoại..."
                 />
                 <button

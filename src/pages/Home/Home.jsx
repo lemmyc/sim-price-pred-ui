@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import Loader from "../../components/Loader/Loader";
 
 let API_ADDRESS = "https://sim-price-pred-api.onrender.com";
+// let API_ADDRESS = "http://localhost:7777";
 
 function Home() {
   const [input, setInput] = useState("");
@@ -16,6 +17,7 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [firstLoading, setFirstLoading] = useState(true);
   const [lastestSIM, setLastestSIM] = useState("");
+  const [simFeatures, setSimFeatures] = useState({});
   const handleChangeInput = (e) => {
     setInput(e.target.value);
     setValid(true);
@@ -34,6 +36,7 @@ function Home() {
       let _respone = fetchData("POST", API_ADDRESS, data);
       _respone.then((body) => {
         setResponse(body);
+        setSimFeatures(body?.features);
         setLastestSIM(input);
         setLoading(false);
       });
@@ -41,6 +44,7 @@ function Home() {
       setValid(false);
     }
   };
+
   useEffect(() => {
     // INIT MODEL
     let data = {
@@ -63,6 +67,117 @@ function Home() {
     9: "200.000.000 VNĐ đến 500.000.000 VNĐ",
     10: "Trên 500.000.000 VNĐ",
   };
+  let nOfAKindDict = {
+    4: "Tứ quý",
+    5: "Ngũ quý",
+    6: "Lục quý",
+    7: "Thất quý",
+    8: "Bát quý",
+    9: "Cửu quý",
+  };
+  let getContent = (feature, detail) => {
+    switch (feature) {
+      case "fortune":
+        return (
+          <>
+            SIM <span className="text-red-400	">Lộc phát</span> đuôi <span className="text-red-400	">{detail}</span>
+          </>
+        );
+      case "godOfWealth":
+        return (
+          <>
+            SIM <span className="text-red-400	">Thần tài</span> đuôi <span className="text-red-400	">{detail}</span>
+          </>
+        );
+      case "godOfSoil":
+        return (
+          <>
+            SIM <span className="text-red-400	">Ông địa</span> đuôi <span className="text-red-400	">{detail}</span>
+          </>
+        );
+      case "repetition":
+        return (
+          <>
+            SIM <span className="text-red-400	">Lặp</span> đuôi <span className="text-red-400	">{detail}</span>
+          </>
+        );
+      case "nOfAKind":
+        if (detail?.n > 3) {
+          return (
+            <>
+              SIM có{" "}
+              <span className="text-red-400	">
+                {nOfAKindDict[detail?.n]}{" "}
+                {detail?.kind[0]}{" "}
+                {detail?.isAtEnd ? "đuôi" : "giữa"}
+              </span>
+            </>
+          );
+        }else if(detail?.n == 3){
+          if(detail?.kind.length == 1){
+            if(detail?.isAtEnd == true){
+              return (
+                <>
+                  SIM{" "}
+                  <span className="text-red-400	">Tam hoa</span>
+                </>
+              );
+            } else{
+              return (
+                <>
+                  SIM{" "}
+                  <span className="text-red-400	">Tam hoa giữa</span>
+                </>
+              );
+            }
+          }else{
+            let last = ""
+            let next_to_last = ""
+            for(let i = 1; i <= 3; i++){
+              last += detail?.kind.at(0)
+              next_to_last += detail?.kind.at(-1)
+            }
+            if(input.indexOf(last) - input.indexOf(next_to_last) === 3){
+              return (
+                <>
+                  SIM{" "}
+                  <span className="text-red-400	">Tam hoa kép</span>
+                </>
+              );
+            }else{
+              return (
+                <>
+                  SIM{" "}
+                  <span className="text-red-400	">Tam hoa</span>
+                </>
+              );
+            }
+          }
+          
+        }else if(detail?.n == 2 && detail?.kind.length >= 2){
+          return (
+            <>
+              SIM có{" "}
+              <span className="text-red-400	">
+                Lặp kép
+                {detail?.kind*11}
+              </span>
+            </>
+          );
+        }else return(<></>)
+      case "straight":
+        return (
+          <>
+            Sim <span className="text-red-400	">Sảnh {(detail[0] - detail[detail.length - 1] < 0)? `tiến lên` : `quay lui`}</span>
+          </>
+        );
+      case "none":
+        return (<> Sim tự chọn</>)
+      default:
+        return ``;
+    }
+  };
+  console.log(simFeatures)
   return (
     <div className="relative">
       {/* Init model notification */}
@@ -138,9 +253,27 @@ function Home() {
                         SIM số: {lastestSIM}
                         <br />
                         Nhà mạng: {response["career"]}
+                        
                         <br />
-                        Giá tiền dự đoán:{" "}
-                        {priceDict[response["price_category"]]}
+                        <strong>
+                          Giá tiền dự đoán:{" "}
+                          {priceDict[response["price_category"]]}
+                        </strong>
+                        <br />
+                        {Object.keys(simFeatures).length > 0 ? (
+                          <div>
+                            thuộc loại SIM
+                            <ul className="list-none">
+                              {Object.keys(simFeatures).map((key) => (
+                                <li key={key}>
+                                  {getContent(key, simFeatures[key])}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ) : (
+                          <></>
+                        )}
                       </div>
                     ) : (
                       <></>

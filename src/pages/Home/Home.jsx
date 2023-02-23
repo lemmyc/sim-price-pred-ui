@@ -157,10 +157,9 @@ function Home() {
         }else if(detail?.n == 2 && detail?.kind.length >= 2){
           return (
             <>
-              SIM có{" "}
+              SIM{" "}
               <span className="text-red-400	">
-                Lặp kép
-                {detail?.kind*11}
+                Lặp kép{" "}
               </span>
             </>
           );
@@ -177,7 +176,7 @@ function Home() {
         return ``;
     }
   };
-  console.log(simFeatures)
+  // console.log(simFeatures)
   return (
     <div className="relative">
       {/* Init model notification */}

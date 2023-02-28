@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import avatar from "../../assets/images/avatar_1.png";
 import styles from "./Home.module.scss";
 
 import { fetchData } from "../../services/fetchData";
 import { Modal } from "../../components";
-import { useEffect } from "react";
 import Loader from "../../components/Loader/Loader";
 
-let API_ADDRESS = "https://sim-price-pred-api.onrender.com";
-// let API_ADDRESS = "http://localhost:7777";
+// let API_ADDRESS = "https://sim-price-pred-api.onrender.com";
+let API_ADDRESS = "http://localhost:7777";
 
 function Home() {
   const [input, setInput] = useState("");
@@ -80,25 +80,29 @@ function Home() {
       case "fortune":
         return (
           <>
-            SIM <span className="text-red-400	">Lộc phát</span> đuôi <span className="text-red-400	">{detail}</span>
+            SIM <span className="text-red-400	">Lộc phát</span> đuôi{" "}
+            <span className="text-red-400	">{detail}</span>
           </>
         );
       case "godOfWealth":
         return (
           <>
-            SIM <span className="text-red-400	">Thần tài</span> đuôi <span className="text-red-400	">{detail}</span>
+            SIM <span className="text-red-400	">Thần tài</span> đuôi{" "}
+            <span className="text-red-400	">{detail}</span>
           </>
         );
       case "godOfSoil":
         return (
           <>
-            SIM <span className="text-red-400	">Ông địa</span> đuôi <span className="text-red-400	">{detail}</span>
+            SIM <span className="text-red-400	">Ông địa</span> đuôi{" "}
+            <span className="text-red-400	">{detail}</span>
           </>
         );
       case "repetition":
         return (
           <>
-            SIM <span className="text-red-400	">Lặp</span> đuôi <span className="text-red-400	">{detail}</span>
+            SIM <span className="text-red-400	">Lặp</span> đuôi{" "}
+            <span className="text-red-400	">{detail}</span>
           </>
         );
       case "nOfAKind":
@@ -107,71 +111,83 @@ function Home() {
             <>
               SIM có{" "}
               <span className="text-red-400	">
-                {nOfAKindDict[detail?.n]}{" "}
-                {detail?.kind[0]}{" "}
+                {nOfAKindDict[detail?.n]} {detail?.kind[0]}{" "}
                 {detail?.isAtEnd ? "đuôi" : "giữa"}
               </span>
             </>
           );
-        }else if(detail?.n == 3){
-          if(detail?.kind.length == 1){
-            if(detail?.isAtEnd == true){
+        } else if (detail?.n == 3) {
+          if (detail?.kind.length == 1) {
+            if (detail?.isAtEnd == true) {
               return (
                 <>
-                  SIM{" "}
-                  <span className="text-red-400	">Tam hoa</span>
+                  SIM <span className="text-red-400	">Tam hoa</span>
                 </>
               );
-            } else{
+            } else {
               return (
                 <>
-                  SIM{" "}
-                  <span className="text-red-400	">Tam hoa giữa</span>
+                  SIM <span className="text-red-400	">Tam hoa giữa</span>
                 </>
               );
             }
-          }else{
-            let last = ""
-            let next_to_last = ""
-            for(let i = 1; i <= 3; i++){
-              last += detail?.kind.at(0)
-              next_to_last += detail?.kind.at(-1)
+          } else {
+            let last = "";
+            let next_to_last = "";
+            for (let i = 1; i <= 3; i++) {
+              last += detail?.kind.at(0);
+              next_to_last += detail?.kind.at(-1);
             }
-            if(input.indexOf(last) - input.indexOf(next_to_last) === 3){
+            if (input.indexOf(last) - input.indexOf(next_to_last) === 3) {
               return (
                 <>
-                  SIM{" "}
-                  <span className="text-red-400	">Tam hoa kép</span>
+                  SIM <span className="text-red-400	">Tam hoa kép</span>
                 </>
               );
-            }else{
+            } else {
               return (
                 <>
-                  SIM{" "}
-                  <span className="text-red-400	">Tam hoa</span>
+                  SIM <span className="text-red-400	">Tam hoa</span>
                 </>
               );
             }
           }
-          
-        }else if(detail?.n == 2 && detail?.kind.length >= 2){
+        } else if (detail?.n == 2 && detail?.kind.length >= 2) {
           return (
             <>
-              SIM{" "}
-              <span className="text-red-400	">
-                Lặp kép{" "}
-              </span>
+              SIM <span className="text-red-400	">Lặp kép </span>
             </>
           );
-        }else return(<></>)
+        } else return <></>;
       case "straight":
         return (
           <>
-            Sim <span className="text-red-400	">Sảnh {(detail[0] - detail[detail.length - 1] < 0)? `tiến lên` : `quay lui`}</span>
+            Sim{" "}
+            <span className="text-red-400	">
+              Sảnh{" "}
+              {detail[0] - detail[detail.length - 1] < 0
+                ? `tiến lên`
+                : `quay lui`}
+            </span>
+          </>
+        );
+      case "dateOfBirth":
+        return (
+          <>
+            Sim{" "}
+            <span className="text-red-400	">
+              ngày tháng năm sinh "{detail.day}/{detail.month}/{detail.year}"
+            </span>
+          </>
+        );
+      case "fullBirthYear":
+        return (
+          <>
+            Sim <span className="text-red-400	">năm sinh "{detail}"</span>
           </>
         );
       case "none":
-        return (<> Sim tự chọn</>)
+        return <> Sim tự chọn</>;
       default:
         return ``;
     }
@@ -194,33 +210,15 @@ function Home() {
       <div className="container mx-auto">
         <div className="flex justify-center items-center h-screen">
           <div className={styles.glass}>
-            <div className="profile flex justify-center py-2">
-              <img className={styles.logo} src={avatar} alt="logo" />
-            </div>
             <div className="title">
               <div className="title flex flex-col items-center">
-                <span className="mb-1 text-xl lg:text-2xl text-center text-gray-500">
-                  Niên luận cơ sở
-                </span>
-                <span className="mb-3 text-xl lg:text-2xl text-center text-gray-500">
-                  Ngành Khoa học máy tính
-                </span>
                 <h4 className="mb-3 text-3xl lg:text-4xl max-w-xl text-center font-bold">
                   Định giá SIM Điện thoại sử dụng Deep Learning
                 </h4>
-                <span className="mb-1 text-xl lg:text-2xl  text-center text-gray-500">
-                  sinh viên thực hiện
-                </span>
-                <span className="text-xl lg:text-2xl text-center">
-                  Lê Nguyễn Bảo Đăng
-                </span>
-                <span className="text-xl lg:text-2xl mb-5  text-center">
-                  MSSV: B2016955
-                </span>
               </div>
             </div>
 
-            <form className="py-1">
+            <form className="mt-10">
               <div className="textbox flex flex-col items-center gap-6">
                 <input
                   value={input}
@@ -252,7 +250,6 @@ function Home() {
                         SIM số: {lastestSIM}
                         <br />
                         Nhà mạng: {response["career"]}
-                        
                         <br />
                         <strong>
                           Giá tiền dự đoán:{" "}
@@ -285,6 +282,8 @@ function Home() {
                 </>
               )}
             </div>
+            
+            <p className={styles.hyperlink}><Link to="/about">Về Website này?</Link></p>
           </div>
         </div>
       </div>

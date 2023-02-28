@@ -1,4 +1,4 @@
-import {Home} from "../pages";
+import {Home, About} from "../pages";
 
 import config from "../configs/routeConfig";
 
@@ -8,6 +8,10 @@ const publicRoutes = [
   {
     path: config.home,
     element: <Home></Home>,
+  },
+  {
+    path: config.about,
+    element: <About></About>,
   },
 ];
 

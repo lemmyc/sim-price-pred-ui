@@ -7,8 +7,8 @@ import { fetchData } from "../../services/fetchData";
 import { Modal } from "../../components";
 import Loader from "../../components/Loader/Loader";
 
-// let API_ADDRESS = "https://sim-price-pred-api.onrender.com";
-let API_ADDRESS = "http://localhost:7777";
+let API_ADDRESS = "https://sim-price-pred-api.onrender.com";
+// let API_ADDRESS = "http://localhost:7777";
 
 function Home() {
   const [input, setInput] = useState("");
